@@ -1,0 +1,28 @@
+body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+#map canvas {
+  /*  DEBUG*/
+  /*    background-color: black*/
+  /*
+  border-color: black;
+  border-style: groove;
+  border-width: 0.1px;
+*/
+  padding: 0;
+  margin: 0;
+  align-content: center;
+}
+
+
+#map {
+  height: 80vh;
+  width: 100%;
+  line-height: 80vh;
+  text-align: center;
+  align-content: center;
+}
