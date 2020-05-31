@@ -8,12 +8,52 @@
   <meta name="description" content="Example description">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/main.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
   <link rel="icon" type="image/x-icon" href="" />
 </head>
 
 <body>
-  <div id="map">
+  <header>
+  </header>
+  <div id="map inherit">
+    <div class="inputs">
+      <div class="contain">
+        <input id="text-input" value="Hello World" type="text" />
+        <button id="submit" type="button" onclick="update()">Generate</button>
+      </div>
+      <div class="contain">
+        <span>
+          Font Size:<input id="fontValue" value="16" oninput="updateSizeFromInput()" onchange="updateSizeFromInput()">px
+          <input type="range" min="16" max="96" value="1" id="size" oninput="updateSize()" onchange="updateSize()">
+        </span>
+
+      </div>
+      <div class="contain">
+        <span>
+          Rand Number Range:<input id="randValue" value="0" oninput="updateRandFromInput()" onchange="updateRandFromInput()">
+          <input type="range" min="-50" max="50" value="0" id="rand" oninput="updateRand()" onchange="updateRand()">
+        </span>
+      </div>
+      <div class="contain">
+        <span id="example"> A </span>
+      </div>
+    </div>
+    <div class="contain">
+      <svg width="100" height="100" id="svg"></svg>
+    </div>
   </div>
-  <a id="download" href="#">Download</a>
+  <div class="contain">
+    <a id="download" href="#">Download Data</a>
+  </div>
+  <footer>
+    <p class="announce">Powered By:</p>
+    <a href="#">
+      <p class="announce">JQuery.js</p>
+    </a>
+    <a href="#">
+      <p class="announce">D3.js</p>
+    </a>
+  </footer>
   <script type="text/javascript" src="js/main.js"></script>
 </body></html>

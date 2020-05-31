@@ -3,6 +3,13 @@ body {
   width: 100%;
   padding: 0;
   margin: 0;
+  color: white;
+  background-color: black;
+  overflow-x: hidden;
+}
+
+a {
+  color: white;
 }
 
 #map canvas {
@@ -18,11 +25,60 @@ body {
   align-content: center;
 }
 
-
 #map {
-  height: 80vh;
+  height: 20%;
   width: 100%;
-  line-height: 80vh;
   text-align: center;
   align-content: center;
+}
+
+.contain {
+  width: 100%;
+  text-align: center;
+}
+
+#example {
+  user-select: none;
+  border-color: black;
+  border-style: groove;
+  border-width: 0.1px;
+  /*  font-size: 16px;*/
+}
+
+#fontValue {
+  width: 2em;
+}
+
+#svg {
+  /*  width: 90%;*/
+  border-color: black;
+  border-style: groove;
+  border-width: 1px;
+  /*  margin: 2% 5% 2% 5%;*/
+}
+
+.inherit {
+  width: 100%;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  width: 100%;
+  font-size: 10px;
+  color: grey;
+}
+
+footer a {
+  color: grey;
+  text-decoration: none;
+}
+
+#randValue {
+  width: 2em;
+}
+
+header {
+  margin-bottom: 5%;
 }
