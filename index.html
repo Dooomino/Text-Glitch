@@ -16,35 +16,66 @@
 <body>
   <header>
   </header>
-  <div id="map inherit">
+  <div id="map">
     <div class="inputs">
       <div class="contain">
-        <input id="text-input" value="Hello World" type="text" />
+        <input id="text-input" value="ERROR" type="text" onchange="onTextChange()" oninput="onTextChange()" />
         <button id="submit" type="button" onclick="update()">Generate</button>
       </div>
-      <div class="contain">
-        <span>
-          Font Size:<input id="fontValue" value="16" oninput="updateSizeFromInput()" onchange="updateSizeFromInput()">px
-          <input type="range" min="16" max="96" value="1" id="size" oninput="updateSize()" onchange="updateSize()">
-        </span>
+
+      <div class="input-contain">
+        <div class="left-contain">
+          <div class="input-state-text">
+            <p class="state-text">Font Size:</p>
+            <p class="state-text">Rand Number Range:</p>
+            <p class="state-text">Color:</p>
+            <p class="state-text">Noise:</p>
+          </div>
+          <div class="input-state-val">
+            <p class="state-val">
+              <input id="fontValue" value="32" oninput="updateSizeFromInput()" onchange="updateSizeFromInput()">px
+            </p>
+            <p class="state-val">
+              <input id="randValue" value="0" oninput="updateRandFromInput()" onchange="updateRandFromInput()">
+            </p>
+            <p class="state-val">
+              <input id="colorText" value="#00ff00" type="text" onchange="updateColorFromInput()" oninput="updateColorFromInput()" /></p>
+            <p class="state-val">
+              <input id="noiseValue" value="0" oninput="updateNoiseFromInput()" onchange="updateNoiseFromInput()">
+            </p>
+          </div>
+        </div>
+
+        <div class="right-contain">
+          <p class="input-val">
+            <input type="range" min="16" max="256" value="32" id="size" oninput="updateSize()" onchange="updateSize()">
+          </p>
+          <p class="input-val">
+            <input type="range" min="0" max="50" value="0" id="rand" oninput="updateRand()" onchange="updateRand()">
+          </p>
+          <p class="input-val">
+            <input type="color" value="#00ff00" id="colorSelector" oninput="updateColor()" onchange="updateColor()">
+          </p>
+          <p class="input-val">
+            <input type="range" min="0" max="100" value="0" id="noise" oninput="updateNoise()" onchange="updateNoise()">
+          </p>
+        </div>
 
       </div>
-      <div class="contain">
-        <span>
-          Rand Number Range:<input id="randValue" value="0" oninput="updateRandFromInput()" onchange="updateRandFromInput()">
-          <input type="range" min="-50" max="50" value="0" id="rand" oninput="updateRand()" onchange="updateRand()">
-        </span>
-      </div>
+
       <div class="contain">
         <span id="example"> A </span>
       </div>
     </div>
     <div class="contain">
-      <svg width="100" height="100" id="svg"></svg>
+      <svg width="100" height="100" id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
     </div>
   </div>
-  <div class="contain">
-    <a id="download" href="#">Download Data</a>
+  <div class="contain download-select">
+    <a id="downloadData" href="#">Download Data</a>
+    <span class="sep">|</span>
+    <a id="downloadImg" href="javascript:downloadSVG();">Download Image</a>
+
   </div>
   <footer>
     <p class="announce">Powered By:</p>

@@ -10,10 +10,43 @@ var fontsize = 16;
 var svg = d3.selectAll("svg");
 var Rrange = 0;
 
+var cx = 0,
+  cy = 0;
+
+function randFlip() {
+  return Math.random() * 100 % 2 == 0 ? -1 : 1;
+}
+
+function noiseColor(hex, noiseAmt) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if (!result)
+    return null;
+  var r = parseInt(((255 - result[1], 16) * (100 + noiseAmt) / 100));
+  var g = parseInt(((255 - result[2], 16) * (100 + noiseAmt) / 100));
+  var b = parseInt(((255 - result[3], 16) * (100 + noiseAmt) / 100));
+
+  if (r < 10) r = '0' + r.toString(16);
+  if (g < 10) g = '0' + g.toString(16);
+  if (b < 10) b = '0' + b.toString(16);
+
+  return '#' + r + g + b
+}
+
 function init() {
   d3.selectAll("svg")
     .attr("width", innerWidth * 0.9)
     .attr("height", innerHeight * 0.8);
+  var bar = $("#rand");
+  bar.val(bar.attr('min') + Math.random() * bar.attr('max'));
+  bar = $("#noise");
+  bar.val(bar.attr('min') + Math.random() * bar.attr('max'));
+
+
+  onTextChange();
+  updateColor();
+  updateRand();
+  updateNoise();
+
   update();
 }
 
@@ -31,7 +64,6 @@ function updateRandFromInput() {
     randT.val(parseInt(bar.attr('max')))
   bar.val(randT.val());
   Rrange = parseInt(bar.val());
-
 }
 
 function updateSize() {
@@ -43,6 +75,37 @@ function updateSize() {
   example.css("font-size", bar.val() + "px");
 }
 
+function updateNoise() {
+  var bar = $("#noise");
+  var noiseText = $("#noiseValue");
+  noiseText.val(bar.val());
+}
+
+function updateNoiseFromInput() {
+  var bar = $("#noise");
+  var noiseText = $("#noiseValue");
+  if (noiseText.val() > parseInt(bar.attr('max')))
+    noiseText.val(parseInt(bar.attr('max')))
+  bar.val(noiseText.val());
+}
+
+
+function updateColor() {
+  var example = $("#example");
+  var colorP = $("#colorSelector");
+  var colorT = $("#colorText");
+  example.css("color", colorP.val());
+  colorT.val(colorP.val());
+}
+
+function updateColorFromInput() {
+  var example = $("#example");
+  var colorP = $("#colorSelector");
+  var colorT = $("#colorText");
+  example.css("color", colorP.val());
+  colorP.val(colorT.val());
+}
+
 function updateSizeFromInput() {
   var bar = $("#size");
   var fontText = $("#fontValue");
@@ -52,6 +115,17 @@ function updateSizeFromInput() {
   bar.val(fontText.val());
   fontsize = fontText.val();
   example.css("font-size", fontText.val() + "px");
+}
+
+function onTextChange() {
+  var example = $("#example");
+  example.html($("#text-input").val());
+}
+
+function getColor(d, colorVal, noiseVal) {
+  var randNoise = Math.random() * noiseVal;
+
+  return d.inv ? noiseColor(colorVal, randNoise) : colorVal
 }
 
 
@@ -92,49 +166,91 @@ function update() {
       else
         imgd.push(255);
     }
-    output = [];
+    var imgd_tr = [];
+    output = []
     while (imgd.length) {
-      output.push(imgd.splice(0, tw));
+      imgd_tr.push(imgd.splice(0, tw));
+    }
+    cx = imgd_tr[0].length;
+    cy = imgd_tr.length;
+    var noiseFac = parseInt(Math.random() * cy) + 1;
+    for (var i = 0; i < imgd_tr.length; i++) {
+      var line = [];
+      for (var j = 0; j < imgd_tr[i].length; j++) {
+        noiseFac = parseInt(Math.random() * cy) + 1;
+        if (imgd_tr[i][j] == 255) {
+          if (j % noiseFac != 0 || j == 0) {
+            line.push({
+              data: imgd_tr[i][j],
+              x: i,
+              y: j,
+              inv: false
+            })
+          } else {
+            line.push({
+              data: imgd_tr[i][j],
+              x: i,
+              y: j,
+              inv: true
+            })
+          }
+        } else {
+          if (j % noiseFac == 0 && j != 0) {
+            line.push({
+              data: 0,
+              x: i,
+              y: j,
+              inv: true,
+            })
+          }
+        }
+      }
+      output.push(line)
     }
     //DEBUG
-    //    console.log(output);    
+    //    console.log(output);
     draw(output);
+    //DEBUG
     //    ctx.strokeRect(ltx, lty, tw, th);
     //map.append(c);
     json = JSON.stringify(output);
     var file = "data:text/json;charset=utf-8," + encodeURIComponent(json);
-    var el = document.getElementById('download');
+    var el = document.getElementById('downloadData');
     el.setAttribute("href", file);
-    el.setAttribute("download", "data.json");
+    el.setAttribute("downloadData", "data.json");
   }
 }
 
+function draw(output) {
+  var colorVal = $("#colorSelector").val();
+  var noiseVal = parseInt($("#noiseValue").val());
+  var invColor = noiseColor(colorVal, noiseVal);
+  //  console.log(invColor);
 
-function draw(data) {
   svg.selectAll("g").remove();
   var sizeX = svg.attr("width");
-  var rects = sizeX / data[0].length; // rect width; 
-  svg.attr("height", rects * data.length);
+  var rects = sizeX / cx; // rect width; 
+  svg.attr("height", rects * cy);
   var sizeY = svg.attr("height");
 
   var scaleX = d3.scaleLinear()
-    .domain([0, data[0].length])
+    .domain([0, cx])
     .range([0, sizeX]);
   var scaleY = d3.scaleLinear()
-    .domain([0, data.length])
+    .domain([0, cy])
     .range([0, sizeY]);
 
   var row = svg.selectAll(".row")
-    .data(data)
+    .data(output)
     .join(
       enter => enter.append("g")
       .attr("class", "row")
       .attr('transform', (d, i) =>
-        'translate(0,' + (i * rects) + ')'
+        'translate(' + randFlip() * Rrange * Math.random() + ',' + (i * rects) + ')'
       ),
       up => up.selectAll(".row")
       .attr('transform', (d, i) =>
-        'translate(0,' + (i * rects) + ')'
+        'translate(' + randFlip() * Rrange * Math.random() + ',' + (i * rects) + ')'
       ),
       exit => exit.selectAll(".row").remove()
     );
@@ -144,24 +260,20 @@ function draw(data) {
     .join(
       enter => enter.append("rect")
       .attr("class", "pixel")
-      .attr("x", (d, j) => scaleX(j))
+      .attr("x", (d) => scaleX(d.y))
       .attr("y", 0)
-      .attr('transform', (d, i) =>
-        'translate(' + Rrange * Math.random() + ',0)'
-      )
+      //      .attr('transform', (d, i) => 'translate(0,' + Rrange / 2 * Math.random() + ')')
       .attr("width", rects)
       .attr("height", rects)
-      .style("fill", (d) => d == 0 ? "black" : "green"),
+      .style("fill", (d) => getColor(d, colorVal, noiseVal)),
       up => up.selectAll(".pixel")
       .attr("class", "pixel")
       .attr("x", (d, j) => scaleX(j))
       .attr("y", 0)
-      .attr('transform', (d, i) =>
-        'translate(' + Rrange * Math.random() + ',0)'
-      )
+      //      .attr('transform', (d, i) => 'translate(0,' + Rrange / 2 * Math.random() + ')')
       .attr("width", rects)
       .attr("height", rects)
-      .style("fill", (d) => d == 0 ? "black" : "green"),
+      .style("fill", (d) => getColor(d, colorVal, noiseVal)),
       exit => exit.selectAll(".pixel").remove()
     );
 
@@ -178,4 +290,19 @@ function draw(data) {
   //      })
   //      .attr("fill", (d, i) => d[i] == 0 ? "black" : "green")
   //    )
+}
+
+
+function downloadSVG() {
+  var svg = $('#svg').clone();
+  svg.css("background-color", "black");
+  svg = svg[0].outerHTML;
+  //  console.log(svg);
+  var prepend = '<?xml version="1.0" standalone="no"?>\r\n'
+  const blob = new Blob([prepend, svg.toString()]);
+  var el = document.createElement("a");
+  el.download = "download.svg";
+  el.href = window.URL.createObjectURL(blob);
+  el.click();
+  el.remove();
 }
