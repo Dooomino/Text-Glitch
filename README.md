@@ -1,6 +1,6 @@
 # Text-Glitch
 
-A Terminal like Glitch text creator, based on SVG & Canvas from html5.  \
+A Terminal like Glitch text creator, based on SVG & Canvas from html5.  
 
 
 ## TODO
