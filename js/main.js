@@ -144,12 +144,12 @@ function update() {
     var sy = m.actualBoundingBoxAscent - m.actualBoundingBoxDescent;
     sx = Math.ceil(sx);
     sy = Math.ceil(sy);
-    ctx.canvas.width = sx * 1.2;
-    ctx.canvas.height = sy * 1.2;
+    ctx.canvas.width = sx * 2;
+    ctx.canvas.height = sy * 2;
     ctx.font = "bold " + fontsize + "px Verdana";
     ctx.fillStyle = "black";
     ctx.textAlign = "center";
-    ctx.fillText(text, ctx.canvas.width / 2, ctx.canvas.height / 2 + sy / 2);
+    ctx.fillText(text, ctx.canvas.width / 2, ctx.canvas.height / 2 + sy * 0.9);
 
     var ltx = 0,
       lty = 0,
