@@ -17,6 +17,8 @@ var Rrange = 0;
 var cx = 0,
   cy = 0;
 
+var blob;
+
 function randFlip() {
   return Math.random() * 100 % 2 == 0 ? -1 : 1;
 }
@@ -304,12 +306,33 @@ function draw(output) {
   download.css("background-color", "black");
   download = download[0].outerHTML;
   var prepend = '<?xml version="1.0" standalone="no"?>\r\n'
-  const blob = new Blob([prepend, download.toString()], {
-    type: 'image/svg+xml'
+  const DOMURL = window.URL || window.webkitURL || window;
+  blob = new Blob([prepend, download.toString()], {
+    type: 'image/svg+xml;charset=utf-8'
   });
-  var url = window.URL.createObjectURL(blob);
+  var url = DOMURL.createObjectURL(blob);
   var el = $('#downloadSVG');
   el.attr("href", url);
   el.attr("download", "download.svg");
 
+}
+
+function downloadImg() {
+  var canvas = document.createElement("canvas");
+  canvas.width = $("#svg").width();
+  canvas.height = $("#svg").height();
+  var ctx = canvas.getContext("2d");
+  const DOMURL = window.URL || window.webkitURL || window;
+  var url = DOMURL.createObjectURL(blob);
+  var img = new Image();
+  img.onload = function () {
+    ctx.drawImage(img, 0, 0);
+    var png = canvas.toDataURL("image/png");
+    //    console.log(png);
+    $("#downloadPNG").attr("href", png);
+    $("#downloadPNG").attr("download", "Output.png");
+    $("#downloadPNG")[0].click();
+  };
+  img.src = url;
+  img.remove();
 }
