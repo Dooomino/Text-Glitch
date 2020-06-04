@@ -219,9 +219,9 @@ function update() {
     //map.append(c);
     json = JSON.stringify(output);
     var file = "data:text/json;charset=utf-8," + encodeURIComponent(json);
-    var el = document.getElementById('downloadData');
-    el.setAttribute("href", file);
-    el.setAttribute("downloadData", "data.json");
+    var el = $('#downloadData');
+    el.attr("href", file);
+    el.attr("download", "data.json");
   }
 }
 
@@ -294,19 +294,18 @@ function draw(output) {
   //      })
   //      .attr("fill", (d, i) => d[i] == 0 ? "black" : "green")
   //    )
-}
 
-
-function downloadSVG() {
-  var svg = $('#svg').clone();
-  svg.css("background-color", "black");
-  svg = svg[0].outerHTML;
-  //  console.log(svg);
+  // Prepare Download
+  var download = $('#svg').clone();
+  download.css("background-color", "black");
+  download = download[0].outerHTML;
   var prepend = '<?xml version="1.0" standalone="no"?>\r\n'
-  const blob = new Blob([prepend, svg.toString()]);
-  var el = document.createElement("a");
-  el.download = "download.svg";
-  el.href = window.URL.createObjectURL(blob);
-  el.click();
-  el.remove();
+  const blob = new Blob([prepend, download.toString()], {
+    type: 'image/svg+xml'
+  });
+  var url = window.URL.createObjectURL(blob);
+  var el = $('#downloadSVG');
+  el.attr("href", url);
+  el.attr("download", "download.svg");
+
 }
