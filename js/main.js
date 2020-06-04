@@ -1,6 +1,10 @@
 window.onload = function () {
   //  update();
   init();
+  console.log("innerWidth:" + innerWidth);
+  console.log("innerHeight:" + innerHeight);
+  console.log("ScWidth:" + screen.width);
+  console.log("SCHeight:" + screen.height);
 }
 window.onresize = init;
 
@@ -34,8 +38,8 @@ function noiseColor(hex, noiseAmt) {
 
 function init() {
   d3.selectAll("svg")
-    .attr("width", innerWidth * 0.9)
-    .attr("height", innerHeight * 0.8);
+    .attr("width", screen.width * 0.9)
+    .attr("height", screen.height * 0.8);
   var bar = $("#rand");
   bar.val(bar.attr('min') + Math.random() * bar.attr('max'));
   bar = $("#noise");
@@ -149,7 +153,7 @@ function update() {
     ctx.font = "bold " + fontsize + "px Verdana";
     ctx.fillStyle = "black";
     ctx.textAlign = "center";
-    ctx.fillText(text, ctx.canvas.width / 2, ctx.canvas.height / 2 + sy * 0.9);
+    ctx.fillText(text, ctx.canvas.width / 2, ctx.canvas.height / 2 + sy * 0.6);
 
     var ltx = 0,
       lty = 0,
