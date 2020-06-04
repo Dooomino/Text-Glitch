@@ -269,6 +269,8 @@ function draw(output) {
       //      .attr('transform', (d, i) => 'translate(0,' + Rrange / 2 * Math.random() + ')')
       .attr("width", rects)
       .attr("height", rects)
+      .style("stroke", (d) => getColor(d, colorVal, noiseVal))
+      .style("stroke-width", "1")
       .style("fill", (d) => getColor(d, colorVal, noiseVal)),
       up => up.selectAll(".pixel")
       .attr("class", "pixel")
@@ -277,6 +279,8 @@ function draw(output) {
       //      .attr('transform', (d, i) => 'translate(0,' + Rrange / 2 * Math.random() + ')')
       .attr("width", rects)
       .attr("height", rects)
+      .style("stroke", (d) => getColor(d, colorVal, noiseVal))
+      .style("stroke-width", "1")
       .style("fill", (d) => getColor(d, colorVal, noiseVal)),
       exit => exit.selectAll(".pixel").remove()
     );

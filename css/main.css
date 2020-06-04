@@ -76,11 +76,16 @@ header {
   margin-bottom: 5%;
 }
 
-#noiseValue {
-  width: 2em;
+rect {
+  border: 0;
+  box-shadow: none;
+  margin-bottom: -1px;
 }
 
 
+#noiseValue {
+  width: 2em;
+}
 
 .input-val {
   width: 100%;
