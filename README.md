@@ -2,6 +2,9 @@
 
 A Terminal like Glitch text image creator, based on SVG & Canvas from html5.  
 
+![example](/ex1.png)|![example](/ex2.png)
+----------|----------
+ ![example](/ex3.png)| ![]()
 
 ## TODO
 - [x] Text Generation from input.
