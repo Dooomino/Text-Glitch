@@ -15,3 +15,7 @@ A Terminal like Glitch text image creator, based on SVG & Canvas from html5.
 - [x] Save Raw Data.
 - [x] Save SVG.
 - [x] Save PNG.
+- [ ] Performance enhancement
+  - [ ] Recalculation
+  - [ ] Initiations 
+  - [ ] Displaying
