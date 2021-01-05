@@ -6,6 +6,8 @@ A Terminal like Glitch text image creator, based on SVG & Canvas from html5.
 ----------|----------
  ![example](/ex3.png)| ![]()
 
+# Run
+- Open index.html or visit [Github Page](https://dooomino.github.io/Text-Glitch/).
 ## TODO
 - [x] Text Generation from input.
 - [x] Noise generation.
